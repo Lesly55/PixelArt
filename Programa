@@ -1,0 +1,11 @@
+
+public class programa {
+
+	public static void main(String[] args) {
+		ImagenUno i = new ImagenUno();
+		i.paintImage();
+		ImagenDos ii = new ImagenDos();
+		ii.paintImage();
+	}
+
+}

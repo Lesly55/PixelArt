@@ -1,0 +1,182 @@
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import javax.imageio.ImageIO;
+
+public class ImagenUno {
+	//18x22?
+	private int width = 900;
+    private int height = 700;
+	private static int PIXEL_SIZE = 40;
+	private static Graphics2D g;
+	
+	//colores
+	Color kirbyPink = new Color(254,165,208);
+	Color darkerPink = new Color(255,105,180);
+	Color darkestPink = new Color(255,50,172);
+	Color blush = new Color(254,26,100);
+	Color wine = new Color(101,2,28);
+	Color red = new Color(160,1,18);
+	
+    BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+    
+	public void paintImage() {
+		g = image.createGraphics();
+		
+		drawBackground(PIXEL_SIZE, Color.white);
+		
+		//sombra negra
+		drawHorizontalLine(8, 13, 1, Color.black);
+		drawHorizontalLine(6, 15, 2, Color.black);
+		drawHorizontalLine(5, 16, 3, Color.black);
+		fillRect(4,4,14,2,Color.black);
+		drawHorizontalLine(3, 18, 6, Color.black);
+		drawHorizontalLine(2, 18, 7, Color.black);
+		drawHorizontalLine(2, 19, 8, Color.black);
+		fillRect(1,9,20,4,Color.black);
+		drawHorizontalLine(2, 20, 13, Color.black);
+		drawHorizontalLine(3, 19, 14, Color.black);
+		drawHorizontalLine(4, 19, 15, Color.black);
+		drawHorizontalLine(5, 18, 16, Color.black);
+		
+		//blush base
+		fillRect(4,9,16,5,blush);
+		fillRect(5,14,14,2,blush);
+				
+		//pink base
+		fillRect(7,3,8,11,kirbyPink);
+		fillRect(5,5,12,4,kirbyPink);
+		putPixel(4,8,kirbyPink);
+		putPixel(3,9,kirbyPink);
+		putPixel(2,10,kirbyPink);
+		putPixel(9,15,Color.black);
+		putPixel(15,15,Color.black);
+		
+		//shading pink
+		//izq
+		putPixel(9,2,blush);
+		putPixel(12,2,blush);
+		drawHorizontalLine(10, 11, 2, darkestPink);
+		putPixel(3,8,darkestPink);
+		putPixel(2,9,wine);
+		putPixel(7,3,darkestPink);
+		putPixel(8,3,darkerPink);
+		putPixel(6,4,darkerPink);
+		putPixel(5,5,darkerPink);
+		putPixel(4,6,darkerPink);
+		putPixel(4,7,kirbyPink);
+		putPixel(2,11,darkerPink);
+		putPixel(2,12,blush);
+		putPixel(3,10,darkestPink);
+		//derecha
+		putPixel(13,3,darkestPink);
+		putPixel(14,3,wine);
+		putPixel(15,4,darkerPink);
+		putPixel(16,4,wine);
+		putPixel(16,5,darkerPink);
+		putPixel(17,6,blush);
+		putPixel(17,7,darkestPink);
+		putPixel(17,8,darkerPink);
+		putPixel(16,9,darkerPink);
+		putPixel(15,10,darkerPink);
+		putPixel(13,11,blush);
+		//medio
+		drawHorizontalLine(10,14,15,darkestPink);
+		drawHorizontalLine(11,13,14,darkerPink);
+		putPixel(10,14,darkestPink);
+		putPixel(14,14,darkestPink);
+
+		
+		//left foot
+		drawVerticalLine(11,12,3,wine);
+		putPixel(4,9,wine);
+		drawHorizontalLine(5, 6, 8, darkestPink);
+		drawHorizontalLine(6, 8, 9, wine);
+		drawHorizontalLine(8, 9, 9, blush);
+		putPixel(8,10,wine);
+		putPixel(9,11,darkestPink);
+		putPixel(9,12,darkestPink);
+		drawVerticalLine(10,13,7,blush);
+		drawVerticalLine(11,13,8,blush);
+		drawVerticalLine(13,14,9,wine);
+		putPixel(4,14,wine);
+		putPixel(5,15,wine);
+		
+		//rightfoot
+		drawVerticalLine(13,14,15,wine);
+		drawVerticalLine(11,12,15,darkestPink);
+		drawVerticalLine(10,11,16,wine);
+		putPixel(19,9,wine);
+		putPixel(17,9,wine);
+		putPixel(16,15,wine);
+		
+		//ojos
+		drawVerticalLine(7,9,11,Color.black);
+		drawVerticalLine(7,9,14,Color.black);
+		putPixel(10,6,Color.white);
+		putPixel(13,6,Color.white);
+		putPixel(10,5,blush);
+		putPixel(13,5,blush);
+		putPixel(11,6,wine);
+		putPixel(14,6,wine);
+		putPixel(11,5,darkestPink);
+		putPixel(14,5,darkestPink);
+		drawVerticalLine(7,9,10,darkerPink);
+		drawVerticalLine(7,8,13,darkerPink);
+
+        drawSquareGrid(PIXEL_SIZE, Color.black);
+		
+		
+		// Guardamos la imagen en formato JPG
+        try {       
+            ImageIO.write(image, "jpg", new File("Kirby.jpg"));
+            System.out.println("EXITO !!!");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+	}
+	
+	private static void drawVerticalLine(int a, int b, int x, Color c){
+   	    g.setColor(c);
+    	for(int i=a;i<=b;i++){
+    		 putPixel(x, i, c);
+        }
+    }
+    
+    private static void drawHorizontalLine(int a, int b, int y, Color c){
+    	g.setColor(c);
+        for(int i=a;i<=b;i++){
+        	 putPixel(i, y, c);
+        }
+    }
+    
+    private static void putPixel(int x, int y, Color c){       
+	   g.setColor(c);
+	   g.fillRect(x * PIXEL_SIZE, y * PIXEL_SIZE, PIXEL_SIZE, PIXEL_SIZE);    
+    }
+    
+    private static void fillRect(int x, int y, int width, int height, Color c){
+    	g.setColor(c);
+    	g.fillRect(x * PIXEL_SIZE, y * PIXEL_SIZE, width*PIXEL_SIZE, height*PIXEL_SIZE);
+    }
+    
+    private static void drawSquareGrid(int size, Color c) {
+    	g.setColor(c);
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) { 
+                g.drawRect(i * PIXEL_SIZE, j * PIXEL_SIZE, PIXEL_SIZE, PIXEL_SIZE);
+            }
+        }
+    }
+    private static void drawBackground(int size, Color c) {
+    	g.setColor(c);
+    	for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                g.fillRect(i * PIXEL_SIZE, j * PIXEL_SIZE, PIXEL_SIZE, PIXEL_SIZE);                
+            }
+        }
+    }
+	
+
+}
